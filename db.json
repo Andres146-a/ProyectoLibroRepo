@@ -1,0 +1,63 @@
+{
+  "libros": [
+    {
+      "id": 1,
+      "titulo": "El Quijote",
+      "cantidad": 15,
+      "precio": 29.99,
+      "fechaPublicacion": "2020-05-15"
+    }
+  ],
+  "autores": [
+    {
+      "id": 1,
+      "nombre": "Miguel de Cervantes",
+      "email": "miguel@example.com",
+      "estado": "activo"
+    }
+  ],
+  "editoriales": [
+    {
+      "id": 1,
+      "nombre": "Editorial Aguiles",
+      "telefono": "123456789",
+      "email": "contacto@aguiles.com",
+      "sitioWeb": "https://aguiles.com"
+    }
+  ],
+  "clientes": [
+    {
+      "id": 1,
+      "cedula": "0123456789",
+      "nombre": "Juan",
+      "apellido": "Pérez",
+      "fechaN": "1990-01-01",
+      "direccion": "Quito",
+      "telefono": "0999999999",
+      "estado": "activo"
+    }
+  ],
+  "facturas": [
+    {
+      "id": 1,
+      "clienteId": 1,
+      "fecha": "2024-06-01",
+      "total": 59.98
+    }
+  ],
+  "detalleFactura": [
+    {
+      "id": 1,
+      "facturaId": 1,
+      "libroId": 1,
+      "cantidad": 2,
+      "precio_uni": 29.99
+    }
+  ],
+  "libroAutor": [
+    {
+      "libroId": 1,
+      "autorId": 1
+    }
+  ]
+}

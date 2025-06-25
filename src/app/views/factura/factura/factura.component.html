@@ -1,0 +1,127 @@
+<div [ngClass]="{'layout': true, 'sidebar-collapsed': sidebarCollapsed}">
+
+   <!-- Botón de colapsar sidebar -->
+        
+  <aside class="sidebar" [ngClass]="{'collapsed': sidebarCollapsed}">
+     <div class="toggle-wrapper">
+        <button class="toggle-btn" (click)="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+
+  <div class="logo-container" >
+    <img src="assets/Josh.jpeg"alt="Logo" class="oval-logo">
+  </div>
+ 
+   <div class="sidebar-content">
+    <div class="sidebar-top">
+       <h3>GESTIÓN LIBRO</h3>
+    <ul>
+      <li class="active"><i class="fas fa-layer-group"></i> Pestaña 1</li>
+      <li><i class="fas fa-book"></i> Pestaña 2</li>
+      <li><i class="fas fa-pen-nib"></i> Pestaña 3</li>
+    </ul>
+</div>
+    <!-- Sección empujada abajo -->
+    <div class="sidebar-bottom">
+      <ul>
+        <li><i class="fa-solid fa-house"></i><span> Home</span></li>
+        <li><i class="fa-solid fa-bell"></i><span> Notificación</span></li>
+      </ul>
+    </div>
+    </div>
+</aside>
+
+  <div class="main">
+    <header class="header">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+      <h1>Libros Aníbal</h1>
+      <div class="admin-profile">
+        <span>ADMINISTRADOR</span>
+        <img src="assets/admin.jpeg" alt="Admin" class="oval-admin">
+      </div>
+    </header>
+
+    <form><br>
+      <section class="compra">
+        <p><strong>COMPRA</strong></p>
+        <div class="grid-row">
+          <div class="input-group">
+            <label for="fecha">FECHA</label>
+            <input type="date" id="fecha">
+          </div>
+        </div>
+
+        <div class="grid-row">
+          <div class="input-group">
+            <label for="cliente">BUSCAR CLIENTE</label>
+            <div class="search-group">
+              <input type="text" placeholder="Agregar texto">
+              <button type="button">🔍 Buscar</button>
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label for="producto">BUSCAR PRODUCTO</label>
+            <div class="search-group">
+              <input type="text" placeholder="Agregar texto">
+              <button type="button">🔍 Buscar</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="detalle-factura">
+        <table>
+          <thead>
+            <tr>
+              <th>Artículo</th>
+              <th>Código</th>
+              <th>Serie</th>
+              <th>Stock</th>
+              <th>P.Venta</th>
+              <th>Cantidad</th>
+              <th>Cliente</th>
+              <th>Fecha</th>
+              <th>Eliminar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>El Quijote</td><td>LIB001</td><td>A123</td><td>10</td><td>$15.00</td><td>2</td><td>Juan Pérez</td><td>2025-06-19</td><td><button>❌</button></td>
+            </tr>
+            <tr>
+              <td>Cien Años de Soledad</td><td>LIB002</td><td>B456</td><td>7</td><td>$20.00</td><td>1</td><td>María Gómez</td><td>2025-06-19</td><td><button>❌</button></td>
+            </tr>
+            <tr>
+              <td>1984</td><td>LIB003</td><td>C789</td><td>5</td><td>$18.00</td><td>3</td><td>Carlos Ruiz</td><td>2025-06-19</td><td><button>❌</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="totales-box">
+        <div class="grid-row">
+          <div class="input-group">
+            <label for="subtotal">SUB TOTAL:</label>
+            <input type="text" id="subtotal" placeholder="Agregar texto">
+          </div>
+          <div class="input-group">
+            <label for="iva">IVA 15%:</label>
+            <input type="text" id="iva" placeholder="Agregar texto">
+          </div>
+          <div class="input-group">
+            <label for="total">TOTAL:</label>
+            <input type="text" id="total" placeholder="Agregar texto">
+          </div>
+        </div>
+      </section>
+
+      <div class="botones">
+        <button type="reset" class="cancelar">CANCELAR</button>
+        <button type="submit" class="guardar">GUARDAR</button>
+      </div>
+    </form>
+  </div>
+</div>
