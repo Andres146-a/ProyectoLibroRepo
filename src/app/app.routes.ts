@@ -1,8 +1,10 @@
-import { Routes } from '@angular/router';
+
 import { LibroComponent } from './views/libro/libro.component';
 import { AutorComponent } from './views/autor/autor.component';
 import { EditorialComponent } from './views/editorial/editorial/editorial.component';
 import { FacturaComponent } from './views/factura/factura/factura.component';
+
+import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'libro', pathMatch: 'full' },
@@ -10,4 +12,5 @@ export const routes: Routes = [
   { path: 'autor', component: AutorComponent },
   { path: 'editorial', component: EditorialComponent },
   { path: 'factura', component: FacturaComponent }
+  
 ];

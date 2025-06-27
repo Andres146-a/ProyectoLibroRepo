@@ -3,10 +3,11 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Autor } from '../../models/autor.model';
 import { AutorService } from '../../services/autor.service';
+import { RouterModule } from '@angular/router'; 
 @Component({
   selector: 'app-autor',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, RouterModule],
   templateUrl: './autor.component.html',
   styleUrls: ['./autor.component.css'],
  

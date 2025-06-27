@@ -49,14 +49,21 @@ html, body {
 }
 
 .sidebar-content {
+  color: #5b2174;
   display: flex;
   flex-direction: column;
   height: calc(100vh - 140px); /* Ajusta según alto del header/logo */
   overflow-y: auto;
   flex-grow: 1;
-    
+  text-decoration: none; 
+  align-items:start;
+  padding: 5px 10px;
+  gap: 8px;
 }
-
+.sidebar-content a:hover {
+  background-color: #f0e6ff; /* Efecto hover opcional */
+  border-radius: 4px;
+}
 
 .main {
   flex-grow: 1;
