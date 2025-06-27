@@ -1,0 +1,22 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "server.ts",
+  "type": "commonjs",
+  "scripts": {
+    "dev": "ts-node src/server.ts"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.10.1",
+    "cors": "^2.8.5",
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.1",
+    "@types/node": "^20.19.1",
+    "prisma": "^6.10.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.2"
+  }
+}

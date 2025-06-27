@@ -1,0 +1,107 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Autor {
+  id_Autor    Int           @id @default(autoincrement())
+  Nombre      String        @db.VarChar(50)
+  Email       String?       @db.VarChar(50)
+  Estado      Autor_Estado? @default(ACTIVO)
+  Libro_Autor Libro_Autor[]
+}
+
+model Cliente {
+  id_Cliente Int             @id @default(autoincrement())
+  Cedula     String          @unique(map: "Cedula") @db.VarChar(20)
+  Nombre     String          @db.VarChar(50)
+  Apellido   String          @db.VarChar(50)
+  FechaN     DateTime?       @db.Date
+  Direccion  String?         @db.VarChar(100)
+  Telefono   String?         @db.VarChar(15)
+  Estado     Cliente_Estado? @default(ACTIVO)
+  facturas   Factura[]
+
+  @@index([Cedula], map: "idx_cliente_cedula")
+  @@index([Nombre, Apellido], map: "idx_cliente_nombre_apellido")
+}
+
+model DetalleFactura {
+  id_Detalle Int      @id @default(autoincrement())
+  compra     String?  @db.VarChar(50)
+  cantidad   Int
+  precio_uni Decimal  @db.Decimal(10, 2)
+  id_Compra  Int?
+  id_Libro   Int?
+  Factura    Factura? @relation(fields: [id_Compra], references: [id_Compra], onDelete: Cascade, onUpdate: NoAction, map: "DetalleFactura_ibfk_1")
+  libro      Libro?   @relation(fields: [id_Libro], references: [id_Libro], onDelete: Restrict, onUpdate: NoAction, map: "DetalleFactura_ibfk_2")
+
+  @@index([id_Compra], map: "idx_detalle_factura")
+  @@index([id_Libro], map: "idx_detalle_libro")
+}
+
+model Editorial {
+  id_Editorial Int     @id @default(autoincrement())
+  Nombre       String  @db.VarChar(50)
+  Telefono     String? @db.VarChar(15)
+  Email        String? @db.VarChar(50)
+  SitioWeb     String? @db.VarChar(100)
+  libros       Libro[]
+}
+
+model Factura {
+  id_Compra      Int              @id @default(autoincrement())
+  fecha_compra   DateTime?        @default(now()) @db.DateTime(0)
+  total          Decimal          @db.Decimal(12, 2)
+  id_Cliente     Int?
+  DetalleFactura DetalleFactura[]
+  cliente        Cliente?         @relation(fields: [id_Cliente], references: [id_Cliente], onDelete: Restrict, onUpdate: NoAction, map: "Factura_ibfk_1")
+
+  @@index([id_Cliente], map: "idx_factura_cliente")
+  @@index([fecha_compra], map: "idx_factura_fecha")
+}
+
+model Libro {
+  id_Libro     Int              @id @default(autoincrement())
+  Titulo       String           @db.VarChar(100)
+  Fechap       DateTime?        @db.Date
+  preciov      Decimal          @db.Decimal(10, 2)
+  cantidad     Int?             @default(0)
+  id_Editorial Int?
+  Estado       Libro_Estado?    @default(DISPONIBLE)
+  detalles     DetalleFactura[]
+  editorial    Editorial?       @relation(fields: [id_Editorial], references: [id_Editorial], onUpdate: NoAction, map: "Libro_ibfk_1")
+  Libro_Autor  Libro_Autor[]
+
+  @@index([id_Editorial], map: "idx_libro_editorial")
+  @@index([Titulo], map: "idx_libro_titulo")
+}
+
+model Libro_Autor {
+  id_Libro Int
+  id_Autor Int
+  Libro    Libro @relation(fields: [id_Libro], references: [id_Libro], onDelete: Cascade, onUpdate: NoAction, map: "Libro_Autor_ibfk_1")
+  Autor    Autor @relation(fields: [id_Autor], references: [id_Autor], onDelete: Cascade, onUpdate: NoAction, map: "Libro_Autor_ibfk_2")
+
+  @@id([id_Libro, id_Autor])
+  @@index([id_Autor], map: "id_Autor")
+}
+
+enum Autor_Estado {
+  ACTIVO
+  INACTIVO
+}
+
+enum Libro_Estado {
+  DISPONIBLE
+  AGOTADO
+}
+
+enum Cliente_Estado {
+  ACTIVO
+  INACTIVO
+}
