@@ -9,11 +9,14 @@
   "dependencies": {
     "@prisma/client": "^6.10.1",
     "cors": "^2.8.5",
-    "express": "^5.1.0"
+    "dotenv": "^17.0.0",
+    "express": "^5.1.0",
+    "nanoid": "^5.1.5"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.1",
+    "@types/nanoid": "^2.1.0",
     "@types/node": "^20.19.1",
     "prisma": "^6.10.1",
     "ts-node": "^10.9.2",

@@ -73,6 +73,7 @@ model Libro {
   cantidad     Int?             @default(0)
   id_Editorial Int?
   Estado       Libro_Estado?    @default(DISPONIBLE)
+  ISBN         String        @db.VarChar(20) 
   detalles     DetalleFactura[]
   editorial    Editorial?       @relation(fields: [id_Editorial], references: [id_Editorial], onUpdate: NoAction, map: "Libro_ibfk_1")
   Libro_Autor  Libro_Autor[]
