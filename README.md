@@ -75,7 +75,7 @@ Ejemplo de .env:
 DATABASE_URL="mysql://usuario:contraseña@localhost:3306/tienda_libros"
 ```
 ---
-## 3. Backend
+### 3. Backend
 
 cd backend
 npm install
@@ -87,7 +87,7 @@ npm run dev
 El backend estará disponible en http://localhost:3000/.
 
 
-##4. Frontend
+### 4. Frontend
 cd ../frontend-app
 npm install
 ng serve
