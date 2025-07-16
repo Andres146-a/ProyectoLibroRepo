@@ -56,6 +56,7 @@ ProyectoTiendaAguiles/
 
 ---
 
+```markdown
 ### 1. Clonar el repositorio
 
 ```bash
@@ -110,4 +111,4 @@ Crear migraciones: npx prisma migrate dev --name nombre_migracion
 Con los bloques de código **abiertos y cerrados correctamente**, GitHub mostrará cada sección de forma independiente y legible.
 
 ¿Deseas que revise todo tu `README.md` con esta corrección aplicada de inicio a fin? Te lo puedo entregar listo para pegar.
-
+asdasda
