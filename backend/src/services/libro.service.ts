@@ -18,8 +18,8 @@ export const libroService = {
   remove: async (id: number) => {
     await libroRepository.delete(id);
   },
-  getAutoresPorLibro: async (idLibro: number) => {
-    return await libroRepository.getAutoresPorLibro(idLibro);
+  getAutoresPorLibro: async (id: number) => {
+    return await libroRepository.getAutoresPorLibro(id);
   },
   deleteMany: (ids: number[]) => {
   return (libroRepository.deleteMany(ids));

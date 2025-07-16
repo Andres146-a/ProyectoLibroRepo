@@ -4,6 +4,7 @@ export interface Libro {
   Fechap: string;
   preciov: number;
   cantidad: number;
+  bestSellers: boolean;
   id_Editorial: number;
   Estado: string;
 }

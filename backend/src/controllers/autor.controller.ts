@@ -26,9 +26,14 @@ export const autorController = {
   }
 },
   async update(req: Request, res: Response) {
+    
     const id = Number(req.params['id']);
     const actualizada = await autorService.update(id, req.body);
+    console.log('📥 PUT recibido para actualizar autor:', id);
+    console.log('📤 Body recibido para actualizar autor:', req.body);
+
     res.json(actualizada);
+    
   },
   async remove(req: Request, res: Response) {
     const id = Number(req.params['id']);

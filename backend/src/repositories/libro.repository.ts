@@ -6,30 +6,36 @@ import { Prisma } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export const libroRepository = {
-  findAll: async (): Promise<Libro[]> => {
-    return await prisma.libro.findMany();
-  },
+  findAll: async () => {
+  return await prisma.libro.findMany({
+    orderBy: { id_Libro: 'asc' }
+  });
+},
 
   findById: async (id: number): Promise<Libro | null> => {
     return await prisma.libro.findUnique({ 
       where: { id_Libro: id },
       include: {
         editorial: true,
-        Libro_Autor: true
+        Libro_Autor: true,
+      categoria: true
       }
     });
   },
 
   create: async (data: any) => {
-    const {
-      Titulo,
-      Fechap,
-      preciov,
-      cantidad,
-      id_Editorial,
-      Estado,
-      autores
-    } = data;
+   const {
+    Titulo,
+    Fechap,
+    preciov,
+    cantidad,
+    id_Editorial,
+    bestSellers,
+    Estado,
+    autores,
+    id_Categoria // ✅ ahora extraído directamente
+  } = data;
+    
 
     const generarISBN = () => {
       const nanoid = customAlphabet('0123456789', 13);
@@ -45,17 +51,26 @@ export const libroRepository = {
       ? Estado
       : Libro_Estado.DISPONIBLE;
 
-    const nuevoLibro = await prisma.libro.create({
+const nuevoLibro = await prisma.libro.create({
   data: {
     Titulo,
     Fechap: fechaValida,
     preciov,
     cantidad,
-    id_Editorial,
+    editorial: {
+      connect: { id_Editorial }
+    },
+    ...(id_Categoria && {
+      categoria: {
+        connect: { id_Categoria }
+      }
+    }),
+    BestSellers: bestSellers,
     Estado: estadoValido,
-    ISBN: generarISBN(), 
-  } as Prisma.LibroUncheckedCreateInput
-    });
+    ISBN: generarISBN()
+  }
+});
+
 
     // Asociar autores si existen
     if (Array.isArray(autores)) {
@@ -76,25 +91,96 @@ export const libroRepository = {
     preciov,
     cantidad,
     id_Editorial,
+    bestSellers,
     Estado,
+    id_Categoria
   });
 
     return nuevoLibro;
   },
-  update: async (id: number, data: Partial<Libro>): Promise<Libro> => {
-    return await prisma.libro.update({
-      where: { id_Libro: id },
-      data: {
-        Titulo: data.Titulo,
-        Fechap: data.Fechap,
-        preciov: data.preciov,
-        cantidad: data.cantidad,
-        id_Editorial: data.id_Editorial,
-        Estado: data.Estado
-      }
-    });
-  },
+  
+ update: async (
+  id: number,
+  data: any
+): Promise<Libro> => {
+  // ✅ Mapeo explícito y seguro
+  const titulo = data.titulo;
+  const precio = data.precio;
+  const cantidad = data.cantidad;
+  const id_Editorial = data.id_Editorial;
+  const estado = data.estado;
+  const autores = data.autores;
+  const fecha = data.fechaPublicacion;
+  const bestSellers = data.bestSellers;
+  const id_Categoria = data.id_Categoria;
+  const fechaValida = fecha && !isNaN(Date.parse(fecha)) ? new Date(fecha) : undefined;
+  const estadoValido = estado && Object.values(Libro_Estado).includes(estado as Libro_Estado)
+    ? estado
+    : undefined;
 
+  console.log('📤 Actualizando libro con:', {
+    id,
+    titulo,
+    fechaValida,
+    precio,
+    cantidad,
+    id_Editorial,
+    bestSellers,
+    estadoValido,
+    autores,
+    id_Categoria
+  });
+
+ const libroActualizado = await prisma.libro.update({
+  where: { id_Libro: id },
+  data: {
+  BestSellers: bestSellers,
+  Titulo: titulo,
+  Fechap: fechaValida,
+  preciov: precio,
+  cantidad,
+  ...(id_Editorial && {
+    editorial: {
+      connect: { id_Editorial }
+    }
+  }),
+  ...(id_Categoria && {
+    categoria: {
+      connect: { id_Categoria }
+    }
+  }),
+  Estado: estadoValido
+}
+
+});
+
+
+  await prisma.libro_Autor.deleteMany({ where: { id_Libro: id } });
+
+  if (Array.isArray(autores)) {
+    await Promise.all(
+      autores.map((idAutor: number) =>
+        prisma.libro_Autor.create({
+          data: {
+            id_Libro: id,
+            id_Autor: idAutor
+          }
+        })
+      )
+    );
+  }
+
+  return prisma.libro.findUnique({
+    where: { id_Libro: id },
+    include: {
+      Libro_Autor: { include: { Autor: true } },
+      editorial: true,
+      categoria: true
+    }
+  }) as Promise<Libro>;
+}
+
+,
   delete: async (id: number): Promise<void> => {
     await prisma.libro.delete({ where: { id_Libro: id } });
     
@@ -137,6 +223,7 @@ export const libroRepository = {
   }
   ,
  getAutoresPorLibro: async (idLibro: number) => {
+    console.log('ID recibido en repository:', idLibro); 
     const libroConAutores = await prisma.libro.findUnique({
       where: { id_Libro: idLibro },
       include: {
@@ -150,7 +237,7 @@ export const libroRepository = {
 
     if (!libroConAutores) return null;
 
-    // Extrae solo los autores
+
     return libroConAutores.Libro_Autor.map(la => la.Autor);
   }
 };

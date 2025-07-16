@@ -35,12 +35,12 @@ export const ClienteRepository = {
 
         return await prisma.cliente.create({
             data: {
-                Cedula,
+                Cedula: String(Cedula),
                 Nombre,
                 Apellido,
                 FechaN: fechaValida,
                 Direccion,
-                Telefono,
+                Telefono: Telefono ? String(Telefono) : null,
                 Estado,
                 ...(facturas?.length && {
                     facturas: {
@@ -51,13 +51,17 @@ export const ClienteRepository = {
         });
     },
     update : async (id: number, data: Partial<Cliente>) => {
+         const fechaValida = data.FechaN && !isNaN(Date.parse(data.FechaN.toString()))
+    ? new Date(data.FechaN.toString())
+    : undefined;
+
         return await prisma.cliente.update({
             where: { id_Cliente: id },
             data: {
                     ...(data.Cedula && { Cedula: data.Cedula }),
                     ...(data.Nombre && { Nombre: data.Nombre }),
                     ...(data.Apellido && { Apellido: data.Apellido }),
-                    ...(data.FechaN && { FechaN: data.FechaN }),
+                    ...(fechaValida && { FechaN: fechaValida }),
                     ...(data.Direccion && { Direccion: data.Direccion }),
                     ...(data.Telefono && { Telefono: data.Telefono }),
                     ...(data.Estado && { Estado: data.Estado })

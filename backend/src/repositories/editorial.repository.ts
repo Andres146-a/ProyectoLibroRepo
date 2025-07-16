@@ -3,9 +3,11 @@ import { PrismaClient, Editorial } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export const editorialRepository = {
-  findAll: async (): Promise<Editorial[]> => {
-    return await prisma.editorial.findMany();
-  },
+  findAll: async () => {
+  return await prisma.editorial.findMany({
+    orderBy: { Nombre: 'asc' }
+  });
+},
 
   findById: async (id: number): Promise<Editorial | null> => {
     return await prisma.editorial.findUnique({ where: { id_Editorial: id } });

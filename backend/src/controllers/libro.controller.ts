@@ -1,4 +1,4 @@
-import {Request, Response} from 'express';
+import {Request, Response, RequestHandler} from 'express';
 import { libroService } from '../services/libro.service';
 
 export const libroController = {
@@ -21,6 +21,8 @@ export const libroController = {
     },
     async update(req: Request, res: Response) {
         const id = Number(req.params['id']);
+        console.log('📥 PUT recibido para actualizar libro:', id);
+  console.log('📤 Body recibido:', req.body);
         const actualizada = await libroService.update(id, req.body);
         res.json(actualizada);  
     },
@@ -29,13 +31,37 @@ export const libroController = {
         await libroService.remove(id);
         res.sendStatus(204);
     },
-    async obtenerAutoresPorLibro(req: Request, res: Response) {
-        const idLibro = Number(req.params['id']);
-        const autores = await libroService.getAutoresPorLibro(idLibro);
-        if (autores) {
-            res.json(autores);
-        } else {
-            res.status(404).json({ error: 'Autores not found for this book' });
-        }
-    }   
+   deleteMany:  (async (req, res) => {
+      const ids: number[] = req.body.ids;
+      if (!Array.isArray(ids) || !ids.every(id => typeof id === 'number')) {
+        return res.status(400).json({ error: 'Invalid IDs format' });
+      }
+      try {
+        const result = await libroService.deleteMany(ids);  
+        res.status(200).json({ message: 'Libros eliminados correctamente' });
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error interno del servidor' });
+      }
+    }) as RequestHandler,
+    obtenerAutoresPorLibro: (async (req, res) => {
+      const idLibro = Number(req.params.id);
+      console.log('ID del libro recibido:', idLibro);
+
+  if (isNaN(idLibro)) {
+    return res.status(400).json({ error: 'ID inválido' });
+  }
+
+  try {
+    const autores = await libroService.getAutoresPorLibro(idLibro);
+    if (autores && autores.length > 0) {
+      res.json(autores);
+    } else {
+      res.status(404).json({ error: 'Autores not found for this book' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error interno del servidor' });
+  }
+}) as RequestHandler
 };

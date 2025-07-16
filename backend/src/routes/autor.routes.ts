@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { autorController } from '../controllers/autor.controller';
+
 const router = Router();
 
 router.get('/', autorController.getAll);
