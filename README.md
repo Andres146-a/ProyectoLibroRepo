@@ -9,7 +9,7 @@ Este proyecto es una aplicación fullstack para la gestión de una tienda de lib
 ---
 
 ## 📁 Estructura del proyecto
-
+```bash
 ProyectoTiendaAguiles/
 ├── backend/ # API REST con Express, Prisma, MySQL
 ├── frontend-app/ # Aplicación Angular (interfaz de usuario)
@@ -18,7 +18,7 @@ ProyectoTiendaAguiles/
 └── README.md
 
 ---
-
+```
 ## 🚀 Funcionalidades principales
 
 ### Frontend
