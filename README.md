@@ -103,4 +103,11 @@ Generar Prisma Client: npx prisma generate
 
 Crear migraciones: npx prisma migrate dev --name nombre_migracion
 
-```bash
+`---
+
+### 🟢 Resultado
+
+Con los bloques de código **abiertos y cerrados correctamente**, GitHub mostrará cada sección de forma independiente y legible.
+
+¿Deseas que revise todo tu `README.md` con esta corrección aplicada de inicio a fin? Te lo puedo entregar listo para pegar.
+
