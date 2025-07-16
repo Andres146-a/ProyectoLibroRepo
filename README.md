@@ -1,59 +1,115 @@
-# ProyectoTiendaAguiles
+# 🛒 Proyecto Tienda Aguiles
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.0.3.
+Este proyecto es una aplicación fullstack para la gestión de una tienda de libros. Incluye:
 
-## Development server
+- **Frontend**: Aplicación web desarrollada en Angular (`frontend-app`)
+- **Backend**: API REST construida con Node.js, Express y Prisma ORM (`backend`)
+- **Base de datos**: MySQL
 
-To start a local development server, run:
+---
+
+## 📁 Estructura del proyecto
+
+ProyectoTiendaAguiles/
+├── backend/ # API REST con Express, Prisma, MySQL
+├── frontend-app/ # Aplicación Angular (interfaz de usuario)
+├── public/ # Recursos públicos
+├── .gitignore
+└── README.md
+
+---
+
+## 🚀 Funcionalidades principales
+
+### Frontend
+- Registro, actualización y eliminación de libros, autores, editoriales y clientes.
+- Registro y gestión de facturas.
+- Reportes de ventas, bestsellers, libros de baja rotación.
+- Interfaz moderna con validaciones y modales de selección.
+
+### Backend
+- API RESTful organizada por capas (Controller → Service → Repository)
+- Prisma ORM para manipular la base de datos MySQL
+- Rutas separadas para cada entidad
+- Migrations con Prisma
+
+---
+
+## 🛠️ Tecnologías utilizadas
+
+| Frontend        | Backend            | Base de datos |
+|-----------------|--------------------|----------------|
+| Angular 20.x    | Node.js + Express  | MySQL          |
+| TypeScript      | Prisma ORM         |                |
+| HTML / CSS      | REST API           |                |
+
+---
+
+## ▶️ Cómo ejecutar el proyecto localmente
+
+### 🔧 Requisitos previos
+
+- Node.js y npm
+- MySQL
+- Angular CLI (`npm install -g @angular/cli`)
+- Prisma CLI (`npx prisma`)
+
+---
+
+### 1. Clonar el repositorio
 
 ```bash
+git clone https://github.com/Andres146-a/ProyectoLibroRepo.git
+cd ProyectoLibroRepo
+
+---
+
+### 2. Configurar la base de datos
+Crea una base de datos MySQL (por ejemplo, tienda_libros) y configura la conexión en:
+
+backend/.env
+
+Ejemplo de .env:
+
+DATABASE_URL="mysql://usuario:contraseña@localhost:3306/tienda_libros"
+
+---
+## 3. Backend
+
+cd backend
+npm install
+npx prisma generate
+npx prisma migrate dev
+npm run dev
+
+
+El backend estará disponible en http://localhost:3000/.
+
+
+##4. Frontend
+cd ../frontend-app
+npm install
 ng serve
-```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+La aplicación se abrirá en http://localhost:4200/.
 
-## Code scaffolding
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Scripts útiles
+Ejecutar servidor backend: npm run dev
 
-```bash
-ng generate component component-name
-```
+Ejecutar servidor frontend: ng serve
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Generar Prisma Client: npx prisma generate
 
-```bash
-ng generate --help
-```
+Crear migraciones: npx prisma migrate dev --name nombre_migracion
 
-## Building
+## Capturas de pantalla
 
-To build the project run:
 
-```bash
-ng build
-```
+Autores y contacto
+Desarrollado por Andres146-a
+GitHub: https://github.com/Andres146-a
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
 
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Licencia
+Este proyecto es de uso académico. Puedes modificarlo y adaptarlo según tus necesidades.
