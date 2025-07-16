@@ -1,0 +1,587 @@
+<div class="layout" [ngClass]="{ 'sidebar-collapsed': sidebarCollapsed }">
+
+  <!-- Sidebar -->
+  <aside class="sidebar" [ngClass]="{'collapsed': sidebarCollapsed}">
+    <div class="toggle-wrapper">
+      <button class="toggle-btn" (click)="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+
+    <div class="logo-container">
+      <img src="assets/Josh.jpeg" alt="Logo" class="oval-logo">
+    </div>
+  
+    <div class="sidebar-content">
+      <div class="sidebar-top">
+        <h3>GESTIÓN LIBRO</h3>
+        <ul>
+          <li>
+            <a routerLink="/libro">
+              <i class="fas fa-layer-group"></i> Gestión Libro
+            </a>
+          </li>
+          <li>
+            <a routerLink="/autor">
+              <i class="fas fa-book"></i> Gestión Autor
+            </a>
+          </li>
+          <li>
+            <a routerLink="/cliente">
+              <i class="fas fa-user"></i> Gestión Cliente
+            </a>
+          </li>
+          <li>
+            <a routerLink="/editorial">
+              <i class="fas fa-building"></i> Gestión Editorial
+            </a>
+          </li>
+          <li>
+            <a routerLink="/factura">
+              <i class="fas fa-file-invoice"></i> Gestión Factura
+            </a>
+          </li>
+        </ul>
+      </div>
+      
+      <div class="sidebar-bottom">
+        <ul>
+          <li><i class="fa-solid fa-house"></i><span> Home</span></li>
+          <li><i class="fa-solid fa-bell"></i><span> Notificación</span></li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main content -->
+  <div class="main">
+    <header class="header">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+      <h1>Libros Aníbal</h1>
+      <div class="admin-profile">
+        <span>ADMINISTRADOR</span>
+        <img src="assets/admin.jpeg" alt="Admin" class="oval-admin" />
+      </div>
+    </header>
+
+    <!-- Contenido principal -->
+    <section class="main-content">
+      <!-- Encabezado de reportes -->
+<div class="report-header">
+  <h2 class="report-title">📊 Reportes y Consultas</h2>
+  <p class="report-description">
+    Visualiza y analiza los datos clave de tu librería. Explora ventas, categorías, libros destacados y más.
+  </p>
+</div>
+
+
+      <!-- Filtros -->
+
+
+      <!-- Tarjetas resumen -->
+      <div class="cards-container">
+        <div class="card-report" (click)="abrirModal('ventas')">
+          <div class="card-icon bg-blue-100">
+            <img src="assets/icons/ventas.png" alt="Ventas">
+          </div>
+          <div class="card-content">
+            <h3>Ventas</h3>
+            <h2>$245,390</h2>
+            <div class="card-trend positive">
+              <i class="fas fa-arrow-up"></i> 16% más que el mes pasado
+            </div>
+            <button class="btn-ver">Ver detalle</button>
+          </div>
+        </div>
+
+        <div class="card-report" (click)="abrirModal('baja')">
+          <div class="card-icon bg-orange-100">
+            <img src="assets/icons/baja.png" alt="Baja rotación">
+          </div>
+          <div class="card-content">
+            <h3>Baja rotación</h3>
+            <h2>78</h2>
+            <div class="card-trend negative">
+              <i class="fas fa-exclamation-circle"></i> Libros con menos de 5 ventas/mes
+            </div>
+            <button class="btn-ver">Analizar</button>
+          </div>
+        </div>
+
+        <div class="card-report" (click)="abrirModal('categoria')">
+          <div class="card-icon bg-green-100">
+            <img src="assets/icons/categoria.png" alt="Categorías">
+          </div>
+          <div class="card-content">
+            <h3>Por categoría</h3>
+            <h2>12</h2>
+            <div class="card-trend">
+              Categorías analizadas
+            </div>
+            <button class="btn-ver">Desglosar</button>
+          </div>
+        </div>
+
+        <div class="card-report" (click)="abrirModal('best')">
+          <div class="card-icon bg-purple-100">
+            <img src="assets/icons/star.png" alt="Best sellers">
+          </div>
+          <div class="card-content">
+            <h3>Best Sellers</h3>
+            <h2>24</h2>
+            <div class="card-trend positive">
+              <i class="fas fa-star"></i> Libros destacados
+            </div>
+            <button class="btn-ver">Revisar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sección de reportes detallados -->
+     <!-- Reemplaza la sección actual de detailed-reports con este código -->
+<div class="detailed-reports-modern">
+   <!-- Ventas -->
+  <div class="report-card" (click)="abrirModal('ventas')">
+    <div class="report-card-header">
+      <i class="fas fa-chart-line"></i>
+      <h3>Reporte de Ventas Mensuales</h3>
+    </div>
+    <div class="report-card-body">
+      <p>Análisis detallado de ventas por período</p>
+      <div class="stats-preview">
+        <div class="stat-item">
+          <span class="stat-value">
+            {{ totalVentas | currency:'USD':'symbol':'1.0-0' }}
+          </span>
+          <span class="stat-label">Ventas totales</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value" 
+                [ngClass]="{ 'positive': porcentajeCambioVentas >= 0, 'negative': porcentajeCambioVentas < 0 }">
+            {{ porcentajeCambioVentas >= 0 ? '+' : '' }}{{ porcentajeCambioVentas | number:'1.0-1' }}%
+          </span>
+          <span class="stat-label">Crecimiento</span>
+        </div>
+      </div>
+    </div>
+    <div class="report-card-footer">
+      <button class="modern-btn">
+        <i class="fas fa-arrow-right"></i> Ver completo
+      </button>
+    </div>
+  </div>
+
+
+  <div class="report-card" (click)="abrirModal('baja')">
+    <div class="report-card-header">
+      <i class="fas fa-book"></i>
+      <h3>Libros de Baja Rotación</h3>
+    </div>
+    <div class="report-card-body">
+      <p>Productos con bajo movimiento en inventario</p>
+      <div class="stats-preview">
+        <div class="stat-item">
+          <span class="stat-value">78</span>
+          <span class="stat-label">Libros</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value negative">-5%</span>
+          <span class="stat-label">Tendencia</span>
+        </div>
+      </div>
+    </div>
+    <div class="report-card-footer">
+      <button class="modern-btn">
+        <i class="fas fa-arrow-right"></i> Analizar
+      </button>
+    </div>
+  </div>
+
+   <!-- Categorías y Best Sellers -->
+  <div class="report-card" (click)="abrirModal('categoria')">
+    <div class="report-card-header">
+      <i class="fas fa-tags"></i>
+      <h3>Libros por Categoría</h3>
+    </div>
+    <div class="report-card-body">
+      <p>Desempeño de ventas por categoría</p>
+      <div class="stats-preview">
+        <div class="stat-item">
+          <span class="stat-value">{{ totalCategorias }}</span>
+          <span class="stat-label">Categorías</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value">{{ totalBestSellers }}</span>
+          <span class="stat-label">Best Sellers</span>
+        </div>
+      </div>
+    </div>
+    <div class="report-card-footer">
+      <button class="modern-btn">
+        <i class="fas fa-arrow-right"></i> Desglosar
+      </button>
+    </div>
+  </div>
+</div>
+<div>
+
+
+</div>
+    </section>
+  </div>
+
+  <!-- MODAL DE REPORTE -->
+  <div class="modal-backdrop" *ngIf="mostrarModal">
+    <div class="modal-contenido">
+      <div class="modal-header">
+        <h2 class="modal-titulo">
+          <span [innerHTML]="getModalIcon()"></span> {{ tituloModal }}
+        </h2>
+        <button class="cerrar-btn" (click)="cerrarModal()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        
+        <!-- Reporte por Categoría -->
+    
+<ng-container *ngIf="tipoFiltro === 'categoria'">
+  <div id="idconfig">  
+  <ng-container *ngFor="let grupo of datosReportePorCategoria; let last = last">
+    
+
+   
+    <div class="categoria-header">
+      <span class="categoria-badge">COD: {{ grupo.codCategoria }}</span>
+      <span class="categoria-name">{{ grupo.nombreCategoria }}</span>
+    </div>
+
+    <div class="table-responsive">
+      <table class="tabla-reporte">
+   <thead>
+  <tr>
+    <th>COD</th>
+    <th>ISBN</th>
+    <th>TÍTULO</th>
+    <th>AUTOR</th>
+    <th>EDITORIAL</th>
+    <th>PRECIO</th>
+    <TH>VENTAS</TH>
+    <th>TIPO</th>
+    <th>DESTACADO</th>
+  </tr>
+</thead>
+<tbody>
+  <tr *ngFor="let libro of grupo.libros; let i = index">
+    <td>{{ getPrefijoCategoria(grupo.nombreCategoria) + '-001' }}</td>
+
+    <td>{{ libro.ISBN }}</td>
+    <td>{{ libro.Titulo }}</td>
+    <td>{{ libro.autores }}</td>
+    <td>{{ libro.editorial }}</td>
+    <td>{{ libro.precio | currency:'USD':'symbol':'1.2-2' }}</td>
+    <td>{{ libro.totalVentas | number }}</td>
+    <td>{{ libro.nombreCategoria || 'N/A' }}</td>
+    <td>
+      <span class="badge" [ngClass]="{'badge-success': libro.bestSeller, 'badge-secondary': !libro.bestSeller}">
+        {{ libro.bestSeller ? '✔️ Best Seller' : '❌ Regular' }}
+      </span>
+    </td>
+  </tr>
+</tbody>
+
+      </table>
+    </div>
+
+    <div class="categoria-footer" *ngIf="grupo.libros.length > 0">
+  <span class="total-ventas">
+    <i class="fas fa-book"></i> 
+    {{ grupo.libros.length }} libro{{ grupo.libros.length > 1 ? 's' : '' }} —
+    <i class="fas fa-shopping-cart"></i> 
+    VENTAS TOTALES DE {{ grupo.nombreCategoria?.toUpperCase() }}: 
+    {{ obtenerTotalVentas(grupo) | number }} 
+
+
+  </span>
+</div>
+
+
+
+    <div *ngIf="!last" class="section-divider">
+      <span>SIGUIENTE CATEGORÍA</span>
+    </div>
+    
+  </ng-container>
+   </div>
+</ng-container>
+
+<!-- Reporte de Ventas Mensuales -->
+<ng-container *ngIf="tituloModal === '📅 Reporte de Ventas Mensuales'">
+  <div class="filtros-reporte">
+
+    <label for="tipoFiltro">Filtrar por:</label>
+    <select id="tipoFiltro" [(ngModel)]="tipoFiltro" (change)="cambiarFiltro()">
+      <option value="anio">Año</option>
+      <option value="mes">Mes</option>
+    </select>
+
+    <!-- Filtro por Mes -->
+    <ng-container *ngIf="tipoFiltro === 'mes'">
+      <div id="contenidoMes" class="contenido-reporte">
+        <h3 class="anio-header">
+          <i class="fas fa-calendar-alt"></i> Comparativa del mes: {{ mesSeleccionado }}
+        </h3>
+
+        <select [(ngModel)]="mesSeleccionado" (change)="filtrarPorMes()">
+          <option *ngFor="let mes of mesesDisponibles" [value]="mes">{{ mes }}</option>
+        </select>
+
+        <!-- Filtro por semana -->
+        <ng-container *ngIf="esFiltroSemana()">
+          <h3 class="anio-header">
+            <i class="fas fa-calendar-week"></i> Comparativa por semana: Semana {{ semanaSeleccionada }}
+          </h3>
+
+          <select [(ngModel)]="semanaSeleccionada" (change)="filtrarPorSemana()">
+            <option *ngFor="let semana of semanasDisponibles" [value]="semana">Semana {{ semana }}</option>
+          </select>
+
+          <div class="table-responsive" *ngIf="datosSemanaComparativo.length > 0">
+            <table class="tabla-reporte">
+              <thead>
+                <tr>
+                  <th>Año</th>
+                  <th>Semana</th>
+                  <th>Total Facturas</th>
+                  <th>Total Ventas</th>
+                  <th>Tendencia</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of datosSemanaComparativo; let i = index">
+                  <td>{{ item.anio }}</td>
+                  <td>{{ item.semana }}</td>
+                  <td>{{ item.total_facturas | number }}</td>
+                  <td>{{ item.total_ventas | currency:'USD':'symbol':'1.2-2' }}</td>
+                  <td>
+                    <span *ngIf="i > 0" class="trend-indicator"
+                          [ngClass]="{'up': item.total_ventas > datosSemanaComparativo[i-1].total_ventas,
+                                      'down': item.total_ventas < datosSemanaComparativo[i-1].total_ventas}">
+                      <i class="fas"
+                        [class.fa-arrow-up]="item.total_ventas > datosSemanaComparativo[i-1].total_ventas"
+                        [class.fa-arrow-down]="item.total_ventas < datosSemanaComparativo[i-1].total_ventas"></i>
+                      {{ ((item.total_ventas - datosSemanaComparativo[i-1].total_ventas) / datosSemanaComparativo[i-1].total_ventas * 100) | number:'1.1-1' }}%
+                    </span>
+                    <span *ngIf="i === 0">-</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div *ngIf="datosSemanaComparativo.length === 0">
+            <p style="color: gray; font-style: italic;">No hay datos disponibles para la semana seleccionada.</p>
+          </div>
+        </ng-container>
+
+        <!-- Tabla por mes -->
+        <div class="table-responsive" *ngIf="datosMesComparativo.length > 0">
+          <table class="tabla-reporte">
+            <thead>
+              <tr>
+                <th>Código</th>
+                <th>Año</th>
+                <th>Total Facturas</th>
+                <th>Total Ventas</th>
+                <th>Tendencia</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of datosMesComparativo; let i = index">
+                <td>{{ item.codigoReferencial }}</td>
+                <td>{{ item.anio }}</td>
+                <td>{{ item.total_facturas | number }}</td>
+                <td>{{ item.total_ventas | currency:'USD':'symbol':'1.2-2' }}</td>
+                <td>
+                  <span *ngIf="i > 0" class="trend-indicator"
+                        [ngClass]="{'up': item.total_ventas > datosMesComparativo[i-1].total_ventas,
+                                    'down': item.total_ventas < datosMesComparativo[i-1].total_ventas}">
+                    <i class="fas"
+                      [class.fa-arrow-up]="item.total_ventas > datosMesComparativo[i-1].total_ventas"
+                      [class.fa-arrow-down]="item.total_ventas < datosMesComparativo[i-1].total_ventas"></i>
+                    {{ ((item.total_ventas - datosMesComparativo[i-1].total_ventas) / datosMesComparativo[i-1].total_ventas * 100) | number:'1.1-1' }}%
+                  </span>
+                  <span *ngIf="i === 0">-</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div *ngIf="datosMesComparativo.length === 0">
+          <p style="color: gray; font-style: italic;">No hay datos disponibles para el mes seleccionado.</p>
+        </div>
+      </div>
+    </ng-container>
+
+    <button (click)="restablecerFiltro()">Ver todo</button>
+  </div>
+
+
+<ng-container *ngIf="tipoFiltro === 'anio'">
+  <!-- Contenedor de reporte anual-mes (principal) -->
+  <div id="contenidoAnual" class="contenido-reporte"  > 
+    <div *ngFor="let anio of datosReporteAgrupado | keyvalue; let last = last" class="anio-group">
+      <h3 class="anio-header">
+        <i class="fas fa-calendar-alt"></i> Año: {{ anio.key }}
+      </h3>
+
+      <div class="table-responsive">
+        <table class="tabla-reporte">
+          <thead>
+            <tr>
+              <th>Codigo</th>
+              <th>Mes</th>
+              <th>Total Facturas</th>
+              <th>Total Ventas</th>
+              <th>Tendencia</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of anio.value; let i = index">
+              <td>{{ item.codigoReferencial }}</td>
+              <td>{{ item.mes }}</td>
+              <td>{{ item.total_facturas | number }}</td>
+              <td>{{ item.total_ventas | currency:'USD':'symbol':'1.2-2' }}</td>
+              <td>
+                <span *ngIf="i > 0" class="trend-indicator" 
+                      [ngClass]="{'up': item.total_ventas > anio.value[i-1].total_ventas, 
+                                  'down': item.total_ventas < anio.value[i-1].total_ventas}">
+                  <i class="fas" 
+                    [class.fa-arrow-up]="item.total_ventas > anio.value[i-1].total_ventas" 
+                    [class.fa-arrow-down]="item.total_ventas < anio.value[i-1].total_ventas"></i>
+                  {{ ((item.total_ventas - anio.value[i-1].total_ventas) / anio.value[i-1].total_ventas * 100) | number:'1.1-1' }}%
+                </span>
+                <span *ngIf="i === 0">-</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div *ngIf="!last" class="section-divider">
+        <span>SIGUIENTE AÑO</span>
+      </div>
+    </div>
+
+    <div *ngIf="!datosReporteAgrupado || (datosReporteAgrupado | keyvalue).length === 0">
+      <p style="color: gray; font-style: italic;">No hay datos disponibles para el año seleccionado.</p>
+    </div>
+  </div>
+</ng-container>
+</ng-container>
+<ng-container *ngIf="tipoFiltro === 'bajo'">
+  <div id="contenidoBajaRotacion"  class="contenido-reporte">
+    <h3>📉 Libros de Baja Rotación</h3>
+    <p>Filtro actual: {{ tipoFiltro }}</p>
+    <p>Libros con menos de 5 ventas en los últimos 3 meses.</p>
+    
+    <table class="tabla-reporte">
+      <thead>
+        <tr>
+          <th>id_Libro</th>
+          <th>ISBN</th>
+          <th>Título</th>
+          <th>Precio</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let libro of librosBajaRotacion">
+          <td>{{ libro.id_Libro }}</td>
+          <td>{{ libro.ISBN }}</td>
+          <td>{{ libro.Titulo }}</td>
+          <td>{{ libro.preciov | number:'1.2-2' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</ng-container>
+
+
+
+
+
+        <!-- Best Sellers -->
+   <ng-container *ngIf="tipoFiltro === 'best'">
+  <div id="contenidoBestSellers" class="contenido-reporte">
+    <p><strong>Filtro actual:</strong> Best Sellers agrupados por volumen de ventas</p>
+
+    <div *ngFor="let rango of datosReporteBestSellers | keyvalue" class="rango-group">
+      <!-- Quiebre de control: título del grupo -->
+      <h3 class="rango-header">
+        <span class="rango-badge">🔥 {{ rango.key }}</span>
+        <span class="count-badge">📚 {{ rango.value.length }} libro(s)</span>
+      </h3>
+
+      <!-- Tabla de libros por rango -->
+      <div class="table-responsive">
+        <table class="tabla-reporte">
+          <thead>
+            <tr>
+              <th>ISBN</th>
+              <th>Título</th>
+              <th>Autor</th>
+              <th>Precio</th>
+              <th>Ventas</th>
+              <th>Categoría</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let libro of rango.value">
+              <td>{{ libro.ISBN }}</td>
+              <td>{{ libro.Titulo }}</td>
+              <td>{{ libro.Autor }}</td>
+              <td>{{ libro.preciov | currency:'USD':'symbol':'1.2-2' }}</td>
+              <td>{{ libro.ventas | number }}</td>
+              <td>{{ libro.nombreCategoria || 'N/A' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+
+        <!-- Reporte genérico -->
+        <ng-container *ngIf="!['📚 Libros más Vendidos por Categoría', '📅 Reporte de Ventas Mensuales', '⭐ Libros Best Sellers'].includes(tituloModal)">
+          <div class="table-responsive">
+            <table class="tabla-reporte">
+              <thead>
+                <tr>
+                  <th *ngFor="let col of columnas">{{ col }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let fila of datosReporte">
+                  <td *ngFor="let col of columnas">{{ fila[col] }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </ng-container>
+      </div>
+
+      <div class="modal-footer">
+        <button *ngIf="mostrarModal" class="btn-export" (click)="exportarPDF()">
+          <i class="fas fa-file-pdf"></i> Exportar a PDF
+        </button>
+        <button class="btn-close" (click)="cerrarModal()">
+          <i class="fas fa-times"></i> Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

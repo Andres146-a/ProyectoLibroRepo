@@ -1,0 +1,453 @@
+
+
+<div [ngClass]="{'layout': true, 'sidebar-collapsed': sidebarCollapsed}">
+
+   <!-- Botón de colapsar sidebar -->
+        
+  <aside class="sidebar" [ngClass]="{'collapsed': sidebarCollapsed}">
+     <div class="toggle-wrapper">
+        <button class="toggle-btn" (click)="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+
+  <div class="logo-container" >
+    <img src="assets/Josh.jpeg"alt="Logo" class="oval-logo">
+  </div>
+ 
+   <div class="sidebar-content">
+    <div class="sidebar-top">
+       <h3>GESTIÓN LIBRO</h3>
+  <ul>
+  <li>
+    <a routerLink="/libro">
+      <i class="fas fa-layer-group"></i> Gestión Libro
+    </a>
+  </li>
+  <li>
+    <a routerLink="/autor">
+      <i class="fas fa-book"></i> Gestión Autor
+    </a>
+  </li>
+  <li>
+    <a routerLink="/cliente">
+      <i class="fas fa-user"></i> Gestión Cliente
+    </a>
+  </li>
+  <li>
+    <a routerLink="/editorial">
+      <i class="fas fa-building"></i> Gestión Editorial
+    </a>
+  </li>
+  <li>
+    <a routerLink="/factura">
+      <i class="fas fa-file-invoice"></i> Gestión Factura
+    </a>
+  </li>
+</ul>
+
+
+</div>
+    <!-- Sección empujada abajo -->
+    <div class="sidebar-bottom">
+      <ul>
+        <li><i class="fa-solid fa-house"></i><span> Home</span></li>
+        <li><i class="fa-solid fa-bell"></i><span> Notificación</span></li>
+      </ul>
+    </div>
+    </div>
+</aside>
+
+
+  <div class="main">
+    <header class="header">
+      
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+      <h1>Libros Aníbal</h1>
+        <div class="admin-profile">
+          <span>ADMINISTRADOR</span>
+          <img src="assets/admin.jpeg" alt="Admin" class="oval-admin">
+        </div>
+       
+
+    </header>
+
+    <div class="controls">
+      <div class="select-wrapper"><br>
+        <label for="opciones">OPCIONES </label>
+        <select id="opciones" [(ngModel)]="selectedOption" class="custom-select">
+          
+          <option *ngFor="let opt of opciones" [value]="opt">{{ opt | titlecase }}</option>
+        </select>
+      </div>
+</div>
+
+   <!-- Sección Registrar -->
+ <section *ngIf="selectedOption === 'registrar' || selectedOption === 'todos'" class="form-section">
+  <h2>REGISTRAR LIBRO</h2>
+ <form #formularioRegistro="ngForm" (ngSubmit)="registrarLibro()">
+    <div class="row">
+      <label>
+        TÍTULO 
+        <input type="text" [(ngModel)]="tituloRegistrar" name="tituloRegistrar" required />
+      </label>
+      <label>
+        FECHA PUBLICACIÓN 
+        <input type="date" [(ngModel)]="fechaPublicacionRegistrar" name="fechaPublicacionRegistrar" required />
+      </label>
+      <label>
+        ESTADO
+        <select [(ngModel)]="estadoRegistrar" name="estadoRegistrar" required>
+          <option value="">Seleccione</option>
+          <option value="DISPONIBLE">Disponible</option>
+          <option value="AGOTADO">Agotado</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="row">
+  <label>
+    CANTIDAD
+    <input
+  type="number"
+  [(ngModel)]="cantidadRegistrar"
+  name="cantidadRegistrar"
+  min="1"
+  step="1"
+  (keypress)="evitarDecimal($event)"
+  required
+/>
+
+  </label>
+
+  <label>
+    PRECIO
+    <input type="number"
+           [(ngModel)]="precioRegistrar"
+           name="precioRegistrar"
+           placeholder="Ingrese el precio"
+           step="0.01"
+           min="0.01"
+           required />
+  </label>
+ <label>
+  CATEGORÍA
+  <select [(ngModel)]="libroRegistro.id_Categoria" name="categoriaRegistro">
+  <option [ngValue]="null">Seleccione una categoría</option>
+<option *ngFor="let cat of categorias" [ngValue]="cat.id_Categoria">{{ cat.Nombre }}</option>
+
+
+</select>
+
+</label>
+
+
+
+ <div class="row">
+  <div class="form-check mt-2">
+    <input type="checkbox"
+           id="bestSellerRegistrar"
+           [(ngModel)]="bestSellerRegistrar"
+           name="bestSellerRegistrar"
+           class="form-check-input">
+    <label for="bestSellerRegistrar" class="form-check-label">¿Es Best Seller?</label>
+  </div>
+</div>
+
+</div>
+
+
+    <div class="row">
+      <div class="campo-seleccion">
+        <button type="button" (click)="abrirModalEditorial()">Seleccionar Editorial</button>
+        <div class="preview-seleccion" *ngIf="editorialSeleccionadaRegistro">
+          <strong>📚 Editorial Seleccionada:</strong> {{ editorialSeleccionadaRegistro.Nombre }}
+        </div>
+      </div>
+
+      <div class="campo-seleccion">
+        <button type="button" (click)="abrirModalAutores()">Seleccionar Autores</button>
+        <div class="preview-seleccion" *ngIf="autoresSeleccionadosRegistro.length > 0">
+          <strong>✍ Autores Seleccionados:</strong> {{ nombresAutoresSeleccionados }}
+        </div>
+      </div>
+    </div>
+
+    <div class="buttons">
+      <button type="button" class="danger" (click)="limpiarFormularioRegistro(formularioRegistro)">LIMPIAR</button>
+
+      <button type="submit" class="primary">GUARDAR</button>
+    </div>
+  </form>
+</section>
+
+<!-- MODALES FUERA DEL FORMULARIO -->
+
+<!-- Modal Editorial -->
+<div class="modal-overlay" *ngIf="mostrarModalEditorial">
+  <div class="modal-content">
+    <span class="close" (click)="cerrarModalEditorial()">&times;</span>
+    <h3 style="text-align: center; color: #5a3e1b;">Selecciona una Editorial</h3>
+    <ul class="lista-editoriales">
+      <li *ngFor="let editorial of editoriales" class="item-editorial">
+        <span>{{ editorial.Nombre }}</span>
+        <button class="btn-seleccionar" (click)="seleccionarEditorial(editorial)">Seleccionar</button>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!-- Modal Autores -->
+<div class="modal-overlay" *ngIf="mostrarModalAutores">
+  <div class="modal-content">
+    <span class="close" (click)="cerrarModalAutores()">&times;</span>
+    <h3 style="text-align: center; color: #5a3e1b;">Selecciona Autores</h3>
+    <ul class="lista-autores">
+      <li *ngFor="let autor of autores" class="item-autor">
+        <span>{{ autor.Nombre }}</span>
+        <button class="btn-seleccionar" (click)="seleccionarAutor(autor)">Agregar</button>
+      </li>
+    </ul>
+  </div>
+</div>
+
+   <!-- ACTUALIZAR -->
+<!-- ACTUALIZAR LIBRO -->
+<section *ngIf="selectedOption === 'actualizar' || selectedOption === 'todos'" class="form-section">
+  <h2>ACTUALIZAR LIBRO</h2>
+
+ <form (ngSubmit)="actualizarLibro()">
+    
+    <!-- Fila: Título - Fecha - Buscar -->
+    <div class="row">
+      <label>
+        TÍTULO
+        <input type="text" [(ngModel)]="tituloActualizar" [disabled]="!idLibroSeleccionado" name="tituloActualizar" required />
+      </label>
+
+      <label>
+        FECHA PUBLICACIÓN
+        <input type="date" [(ngModel)]="fechaPublicacionActualizar" [disabled]="!idLibroSeleccionado" name="fechaPublicacionActualizar" required />
+      </label>
+ <div class="form-check mt-2">
+  <input type="checkbox"
+         id="bestSellerActualizar"
+         [(ngModel)]="bestSellersActualizar"
+         name="bestSellerActualizar"
+         class="form-check-input"
+         [disabled]="!idLibroSeleccionado">
+  <label for="bestSellerActualizar" class="form-check-label">¿Es Best Seller?</label>
+</div>
+
+      <div class="search-button">
+        <button type="button" (click)="abrirModalBusquedaLibro()" title="Buscar libro">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+     
+    </div>
+
+    <!-- Fila: Cantidad - Precio - Estado - ISBN -->
+    <div class="row">
+      <label>
+        CANTIDAD
+        <input type="number" [(ngModel)]="cantidadActualizar"  [disabled]="!idLibroSeleccionado" name="cantidadActualizar" required />
+      </label>
+
+      <label>
+        PRECIO
+        <input type="number" [(ngModel)]="precioActualizar" [disabled]="!idLibroSeleccionado" name="precioActualizar" required />
+      </label>
+
+      <label>
+        ESTADO
+        <select [(ngModel)]="estadoActualizar" [disabled]="!idLibroSeleccionado" name="estadoActualizar" required>
+          <option value="">Seleccione</option>
+          <option value="DISPONIBLE">Disponible</option>
+          <option value="AGOTADO">Agotado</option>
+        </select>
+      </label>
+
+      <label>
+        ISBN LIBRO
+        <input type="text" [(ngModel)]="isbnLibroSeleccionado"  [disabled]="!idLibroSeleccionado" name="isbnLibroActualizar" readonly />
+      </label>
+
+    </div>
+
+    <!-- Fila: Vista previa de editorial y autores -->
+    <div class="row">
+      <label>
+        EDITORIAL
+        <input type="text" [value]="editorialSeleccionada?.Nombre || 'No asignada'" readonly  [disabled]="!idLibroSeleccionado"/>
+      </label>
+
+      <label>
+        AUTORES
+        <input type="text" [value]="nombresAutoresSeleccionados || 'Ninguno seleccionado'" readonly  [disabled]="!idLibroSeleccionado"/>
+      </label>
+  <label>
+  CATEGORÍA
+<select
+  class="form-control"
+  [(ngModel)]="libroActualizar.id_Categoria"
+  name="categoriaActualizar"
+  required
+>
+  <option [ngValue]="null" disabled>Selecciona una categoría</option>
+  <option *ngFor="let categoria of categorias" [ngValue]="categoria.id_Categoria">
+    {{ categoria.Nombre }}
+  </option>
+</select>
+
+
+</label>
+
+    </div>
+
+    
+<br><br>
+
+<!-- Botones para seleccionar editorial y autores en una fila -->
+<div class="row">
+  <div class="campo-seleccion">
+    <button type="button" (click)="abrirModalEditorialActualizar()" [disabled]="!idLibroSeleccionado">Seleccionar Editorial</button>
+    <div class="preview-seleccion" *ngIf="editorialSeleccionada">
+      <strong>📚 Editorial Seleccionada:</strong> {{ editorialSeleccionada.Nombre }}
+    </div>
+  </div>
+
+   <div class="campo-seleccion">
+    <button type="button" (click)="abrirModalAutorActualizar()" [disabled]="!idLibroSeleccionado">Seleccionar Autores</button>
+    <div class="preview-seleccion" *ngIf="autoresSeleccionados.length > 0">
+  <strong>✍ Autores Seleccionados:</strong>
+  <span *ngFor="let autor of autoresSeleccionados; let i = index">
+    {{ autor.Nombre }}
+    <button (click)="quitarAutor(autor)" style="border: none; background: none; color: #c62828;">❌</button>
+    <span *ngIf="i < autoresSeleccionados.length - 1">, </span>
+  </span>
+</div>
+
+  </div>
+</div>
+
+
+
+
+    
+
+    <!-- Botones finales -->
+     <div class="buttons">
+       <button type="submit" class="btn">GUARDAR</button>
+      <button type="button" (click)="limpiarFormulario()" class="secondary">LIMPIAR</button>
+
+    </div>
+  </form>
+</section>
+
+<!-- MODAL para seleccionar libros -->
+<div class="modal-overlay" *ngIf="mostrarModalLibro">
+  <div class="modal-content">
+    <span class="close" (click)="cerrarModalBusquedaLibro()">&times;</span>
+    <h3 class="modal-title">Selecciona un libro</h3>
+
+    <div class="table-wrapper">
+      <table class="styled-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+           <th>Título</th>
+            <th>Fecha</th>
+            <th>Cantidad</th>
+            <th>Precio</th>
+            <th>Estado</th>
+           
+            <th>ISBN Libro</th>
+             <th>Best Seller</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let libro of libros">
+            <td>{{ libro.id_Libro }}</td>
+            <td>{{ libro.Titulo }}</td>
+             <td>{{ formatearFecha(libro.Fechap) }}</td>
+            <td>{{ libro.cantidad }}</td>
+            <td>{{ libro.preciov }}</td>
+            <td>{{ libro.Estado }}</td>
+            <td>{{ libro.ISBN }}</td>
+            <td>
+              <i *ngIf="libro.BestSellers" class="fas fa-star text-warning" title="Best Seller"></i>
+              <i *ngIf="!libro.BestSellers" class="far fa-star text-muted" title="No es Best Seller"></i>
+            </td>
+
+
+            <td>
+              <button class="btn-seleccionar" (click)="seleccionarLibro(libro)">Seleccionar</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+
+ <section *ngIf="selectedOption === 'eliminar' || selectedOption === 'todos'" class="eliminar-libro">
+  <h4 class="seccion-titulo">ELIMINAR LIBRO</h4>
+  <div class="tabla-filtro-container">
+    
+ 
+
+<!-- Tabla con libros filtrados -->
+<div class="tabla-eliminar-wrapper">
+  <select [(ngModel)]="estadoFiltro">
+  <option value="TODOS">Todos</option>
+  <option value="DISPONIBLE">Disponibles</option>
+  <option value="AGOTADO">Agotados</option>
+</select>
+
+  <table class="tabla-eliminar">
+    <thead>
+      <tr>
+        <th>TÍTULO</th>
+        <th>CANTIDAD</th>
+        <th>PRECIO</th>
+        <th>FECHA PUBLICACIÓN</th>
+        <th>A CCIÓN</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let libro of librosFiltrados">
+        <td>{{ libro.Titulo }}</td>
+        <td>{{ libro.cantidad }}</td>
+        <td>{{ libro.preciov }}</td>
+        <td>{{ formatearFecha(libro.Fechap) }}</td>
+        <td><input type="checkbox" [(ngModel)]="libro.seleccionado" /></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+
+     <!-- Tabla -->
+  <!-- Filtro y botón -->
+<div class="filtro-eliminar">
+  <div class="buscador">
+    <input 
+      type="search" 
+      placeholder="🔍 Buscar"
+      [(ngModel)]="filtroBusqueda"
+    />
+  </div>
+  <button (click)="eliminarLibroSeleccionado()">Eliminar libros seleccionados</button>
+</div>
+
+
+
+ 
+</div>
+

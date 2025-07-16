@@ -1,0 +1,197 @@
+<div [ngClass]="{'layout': true, 'sidebar-collapsed': sidebarCollapsed}">
+  <!-- Sidebar -->
+  <aside class="sidebar" [ngClass]="{'collapsed': sidebarCollapsed}">
+    <div class="toggle-wrapper">
+      <button class="toggle-btn" (click)="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+
+    <div class="logo-container">
+      <img src="assets/Josh.jpeg" alt="Logo" class="oval-logo">
+    </div>
+
+    <div class="sidebar-content">
+      <div class="sidebar-top">
+        <h3>GESTIÓN CLIENTE</h3>
+        <ul>
+          <li><a routerLink="/libro"><i class="fas fa-layer-group"></i> Gestión Libro</a></li>
+          <li><a routerLink="/autor"><i class="fas fa-book"></i> Gestión Autor</a></li>
+          <li><a routerLink="/cliente"><i class="fas fa-user"></i> Gestión Cliente</a></li>
+          <li><a routerLink="/editorial"><i class="fas fa-building"></i> Gestión Editorial</a></li>
+          <li><a routerLink="/factura"><i class="fas fa-file-invoice"></i> Gestión Factura</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-bottom">
+        <ul>
+          <li><i class="fa-solid fa-house"></i><span> Home</span></li>
+          <li><i class="fa-solid fa-bell"></i><span> Notificación</span></li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <div class="main">
+    <header class="header">
+      <h1>Libros Aníbal</h1>
+      <div class="admin-profile">
+        <span>ADMINISTRADOR</span>
+        <img src="assets/admin.jpeg" alt="Admin" class="oval-admin">
+      </div>
+      <link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+/>
+
+    </header>
+
+    <!-- Selector -->
+    <div class="controls">
+      <div class="select-wrapper">
+        <label for="opciones">OPCIONES </label>
+        <select id="opciones" [(ngModel)]="selectedOption" class="custom-select">
+          <option *ngFor="let opt of opciones" [value]="opt">{{ opt | titlecase }}</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Registrar Cliente -->
+    <section *ngIf="selectedOption === 'registrar' || selectedOption === 'todos'" class="form-section">
+      <h2>REGISTRAR CLIENTE</h2>
+      <form (ngSubmit)="registrarCliente()" #formularioRegistro="ngForm">
+        <div class="row">
+          <label>CÉDULA <input type="text" [(ngModel)]="clienteRegistrar.Cedula" name="cedula" required /></label>
+          <label>NOMBRE <input type="text" [(ngModel)]="clienteRegistrar.Nombre" name="nombre" required /></label>
+          <label>APELLIDO <input type="text" [(ngModel)]="clienteRegistrar.Apellido" name="apellido" required /></label>
+        </div>
+        <div class="row">
+          <label>FECHA NACIMIENTO <input type="date" [(ngModel)]="clienteRegistrar.FechaN" name="fechaN" /></label>
+          <label>DIRECCIÓN <input type="text" [(ngModel)]="clienteRegistrar.Direccion" name="direccion" /></label>
+          <label>TELÉFONO <input type="text" [(ngModel)]="clienteRegistrar.Telefono" name="telefono" /></label>
+        </div>
+        <div class="row">
+          <label>ESTADO
+            <select [(ngModel)]="clienteRegistrar.Estado" name="estado">
+              <option value="">Seleccione</option>
+              <option value="ACTIVO">ACTIVO</option>
+              <option value="INACTIVO">INACTIVO</option>
+            </select>
+          </label>
+        </div>
+        <div class="buttons">
+          <button type="button" class="danger" (click)="limpiarFormularioRegistro()">LIMPIAR</button>
+          <button type="submit" class="primary">GUARDAR</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Actualizar Cliente -->
+    <section *ngIf="selectedOption === 'actualizar' || selectedOption === 'todos'" class="form-section">
+      <h2>ACTUALIZAR CLIENTE</h2>
+      <form (ngSubmit)="actualizarCliente()">
+        <div class="row">
+          <label>CÉDULA <input type="text" [(ngModel)]="clienteActualizar.Cedula" [disabled]="!actualizacionHabilitada"name="cedulaActualizar" required /></label>
+          <label>NOMBRE <input type="text" [(ngModel)]="clienteActualizar.Nombre" [disabled]="!actualizacionHabilitada"name="nombreActualizar" required /></label>
+          <label>APELLIDO <input type="text" [(ngModel)]="clienteActualizar.Apellido" [disabled]="!actualizacionHabilitada" name="apellidoActualizar" required /></label>
+          <div class="search-button">
+            <button type="button" (click)="abrirModalBusquedaCliente()" title="Buscar cliente">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+        </div>
+        <div class="row">
+          <label>FECHA NACIMIENTO <input type="date" [(ngModel)]="clienteActualizar.FechaN" [disabled]="!actualizacionHabilitada"name="fechaActualizar" /></label>
+          <label>DIRECCIÓN <input type="text" [(ngModel)]="clienteActualizar.Direccion" [disabled]="!actualizacionHabilitada"name="direccionActualizar" /></label>
+          <label>TELÉFONO <input type="text" [(ngModel)]="clienteActualizar.Telefono"[disabled]="!actualizacionHabilitada"  name="telefonoActualizar" /></label>
+        </div>
+        <div class="row">
+          <label>ESTADO
+            <select [(ngModel)]="clienteActualizar.Estado" name="estadoActualizar" [disabled]="!actualizacionHabilitada">
+              <option value="">Seleccione</option>
+              <option value="ACTIVO">ACTIVO</option>
+              <option value="INACTIVO">INACTIVO</option>
+            </select>
+          </label>
+        </div>
+        <div class="buttons">
+          <button type="submit" [disabled]="!actualizacionHabilitada"class="primary">GUARDAR</button>
+          <button type="reset" [disabled]="!actualizacionHabilitada" class="secondary">LIMPIAR</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Modal Selección Cliente -->
+    <div class="modal-overlay" *ngIf="mostrarModalCliente">
+      <div class="modal-content">
+        <span class="close" (click)="cerrarModalBusquedaCliente()">&times;</span>
+        <h3 class="modal-title">Selecciona un cliente</h3>
+        <div class="table-wrapper">
+          <table class="styled-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Cédula</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Estado</th>
+                <th>Acción</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let cliente of clientes">
+                <td>{{ cliente.id_Cliente }}</td>
+                <td>{{ cliente.Cedula }}</td>
+                <td>{{ cliente.Nombre }}</td>
+                <td>{{ cliente.Apellido }}</td>
+                <td>{{ cliente.Estado }}</td>
+                <td>
+                  <button class="btn-seleccionar" (click)="seleccionarCliente(cliente)">Seleccionar</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Eliminar Cliente -->
+    <section *ngIf="selectedOption === 'eliminar' || selectedOption === 'todos'" class="eliminar-libro">
+      <h4 class="seccion-titulo">ELIMINAR CLIENTE</h4>
+      <div class="tabla-filtro-container">
+        <div class="tabla-eliminar-wrapper">
+          <table class="tabla-eliminar">
+            <thead>
+              <tr>
+                <th>CÉDULA</th>
+                <th>NOMBRE</th>
+                <th>APELLIDO</th>
+                <th>ACCIÓN</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let cliente of clientesFiltrados">
+                <td>{{ cliente.Cedula }}</td>
+                <td>{{ cliente.Nombre }}</td>
+                <td>{{ cliente.Apellido }}</td>
+                <td><input type="checkbox" [(ngModel)]="cliente.seleccionado" /></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="filtro-eliminar">
+          <div class="buscador">
+            <input
+  type="search"
+  placeholder="🔍 Buscar"
+  [(ngModel)]="filtroBusqueda"
+  (ngModelChange)="aplicarFiltro()" 
+/>
+          </div>
+          <button (click)="eliminarClientesSeleccionados()">Eliminar clientes seleccionados</button>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

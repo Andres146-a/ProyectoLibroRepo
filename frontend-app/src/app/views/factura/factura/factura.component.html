@@ -1,0 +1,245 @@
+<div class="layout">
+  <aside class="sidebar" [class.collapsed]="sidebarCollapsed">
+    <div class="logo-container">
+      <img src="assets/Josh.jpeg" alt="Logo" class="oval-logo">
+    </div>
+    <div class="sidebar-content">
+      <div class="sidebar-top">
+            <h3>GESTIÓN LIBRO</h3>
+  <ul>
+  <li>
+    <a routerLink="/libro">
+      <i class="fas fa-layer-group"></i> Gestión Libro
+    </a>
+  </li>
+  <li>
+    <a routerLink="/autor">
+      <i class="fas fa-book"></i> Gestión Autor
+    </a>
+  </li>
+  <li>
+    <a routerLink="/cliente">
+      <i class="fas fa-user"></i> Gestión Cliente
+    </a>
+  </li>
+  <li>
+    <a routerLink="/editorial">
+      <i class="fas fa-building"></i> Gestión Editorial
+    </a>
+  </li>
+  <li>
+    <a routerLink="/factura">
+      <i class="fas fa-file-invoice"></i> Gestión Factura
+    </a>
+  </li>
+</ul>
+      </div>
+      <div class="sidebar-bottom">
+        <ul>
+          <li><i class="fa-solid fa-house"></i><span> Home</span></li>
+          <li><i class="fa-solid fa-bell"></i><span> Notificación</span></li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="header">
+      <h1>Libros Aníbal</h1>
+      <div class="admin-profile">
+        <span>ADMINISTRADOR</span>
+        <img src="assets/admin.jpeg" alt="Admin" class="oval-admin">
+      </div>
+    </header>
+
+  <form (submit)="$event.preventDefault()">
+
+      <section class="compra-horizontal">
+        <div class="input-group">
+        <br>
+            <p><strong>Fecha de factura:</strong> {{ fechaHoraFactura }}</p>
+        </div>
+
+<!-- Cliente -->
+<div class="input-group">
+  <label for="cliente">CLIENTE</label>
+  <div class="search-group">
+
+    <!-- Si NO hay cliente seleccionado, muestra input -->
+    <ng-container *ngIf="!clienteSeleccionado; else clienteSeleccionadoTpl">
+      <input
+        type="text"
+        [(ngModel)]="clienteNombre"
+        placeholder="Escribe o selecciona cliente"
+        list="listaClientes"
+      />
+      <datalist id="listaClientes">
+        <option *ngFor="let c of clientes" [value]="c.Nombre + ' ' + c.Apellido"></option>
+      </datalist>
+    </ng-container>
+
+    <!-- Si hay cliente seleccionado, muestra nombre fijo -->
+    <ng-template #clienteSeleccionadoTpl>
+      <input type="text" [value]="clienteNombre" readonly />
+    </ng-template>
+
+    <button type="button" (click)="abrirModalCliente()">Buscar Cliente</button>
+
+  </div>
+</div>
+
+
+<!-- Producto -->
+<div class="input-group">
+  
+ 
+    
+  <label for="producto">BUSCAR LIBRO</label>
+  <div class="search-group">
+    <input
+      type="text"
+      name="productoNombre"
+      [(ngModel)]="productoNombre"
+      placeholder="Escribe título o ISBN"
+    />
+    <button 
+  type="button" 
+  (click)="buscarLibroPorTituloOISBN(productoNombre)">
+  Buscar Producto
+</button>
+
+
+  </div>
+</div>
+
+
+  
+
+        <!-- Modal Cliente -->
+
+<div class="modal-overlay" *ngIf="mostrarModalCliente">
+  <div class="modal-content">
+    <span class="close" (click)="cerrarModalCliente()">&times;</span>
+    <h3 style="text-align: center; color: #5a3e1b;">Selecciona un Cliente</h3>
+    <ul class="lista-clientes">
+     <li *ngFor="let cliente of clientesFiltrados" class="item-cliente">
+  <span>{{ cliente.Nombre }} {{ cliente.Apellido }}</span>
+  <button type="button" (click)="seleccionarCliente(cliente)">Seleccionar</button>
+</li>
+
+    </ul>
+  </div>
+</div>
+
+<!-- Modal Libro -->
+<div class="modal-overlay" *ngIf="mostrarModalLibro">
+  <div class="modal-content">
+    <span class="close" (click)="cerrarModalLibro()">&times;</span>
+    <h3 style="text-align: center; color: #5a3e1b;">Selecciona un Producto</h3>
+    <ul class="lista-libros">
+      <li *ngFor="let libro of librosFiltrados" class="item-libro">
+        <span>{{ libro.Titulo }} - {{ libro.ISBN }}</span>
+        <button type="button" (click)="seleccionarLibro(libro)">Seleccionar</button>
+      </li>
+    </ul>
+  </div>
+</div>
+
+
+      </section>
+
+      <section class="detalle-factura">
+        <table>
+          <thead>
+            <tr>
+              <th>Artículo</th>
+              <th>Código</th>
+              <th>P.Venta</th>
+              <th>Cantidad</th>
+              <th>Controles</th>
+              <th>Eliminar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of itemsFactura">
+              <td>{{ item.nombre }}</td>
+              <td>{{ item.codigo }}</td>
+              <td>{{ item.precio | currency:'USD' }}</td>
+              <td>{{ item.cantidad }}</td>
+              <td>
+                <button type="button" (click)="incrementarCantidad(item)">➕</button>
+                <button type="button" (click)="disminuirCantidad(item)">➖</button>
+
+              </td>
+              <td><button type="button" (click)="eliminarProducto(item.codigo)">❌</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="totales-horizontal">
+        <div class="input-group">
+          <label for="subtotal">SUB TOTAL:</label>
+          <input type="text" id="subtotal" [value]="subtotal | number:'1.2-2'" readonly>
+        </div>
+        <div class="input-group">
+          <label for="iva">IVA 15%:</label>
+          <input type="text" id="iva" [value]="iva | number:'1.2-2'" readonly>
+        </div>
+        <div class="input-group">
+          <label for="total">TOTAL:</label>
+          <input type="text" id="total" [value]="total | number:'1.2-2'" readonly>
+        </div>
+        <div class="acciones-factura" style="margin-top: 20px; text-align: right;">
+  <button (click)="mostrarVistaPrevia()" class="btn btn-secondary">Vista Previa</button>
+  <br>
+          
+</div>
+
+      </section>
+<div id="contenido-pdf"> 
+      <div class="contenedor-central" *ngIf="vistaPreviaActiva">
+        <section class="factura-preview">
+          <h3>Vista previa de la Factura</h3>
+          <p><strong>Cliente:</strong> {{ clienteNombre || '-' }}</p>
+          <p><strong>Fecha y Hora:</strong> {{ fechaHoraFactura || '-' }}</p>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Artículo</th>
+                <th>Código</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of itemsFactura">
+                  <td>{{ item.nombre }}</td>
+                  <td>{{ item.codigo }}</td>
+                  <td>{{ item.precio | currency:'USD' }}</td>
+                  <td>{{ item.cantidad }}</td>
+                  <td>{{ (item.precio * item.cantidad) | currency:'USD' }}</td>
+                </tr>
+              </tbody>
+
+          </table>
+
+          <div class="totales-factura">
+            <div><strong>SUBTOTAL:</strong> {{ subtotal | currency:'USD' }}</div>
+            <div><strong>IVA (15%):</strong> {{ iva | currency:'USD' }}</div>
+            <div><strong>TOTAL:</strong> {{ total | currency:'USD' }}</div>
+          </div>
+
+          <div class="botones-derecha">
+            <button type="button" class="cancelar" (click)="cancelarVistaPrevia()">CANCELAR</button>
+            <button type="submit" (click)="confirmarFactura()"  class="confirmar">CONFIRMAR</button>
+          </div>
+        </section>
+      </div>
+      </div>
+    </form>
+    
+  </div>
+</div>
