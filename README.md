@@ -62,7 +62,7 @@ ProyectoTiendaAguiles/
 ```bash
 git clone https://github.com/Andres146-a/ProyectoLibroRepo.git
 cd ProyectoLibroRepo
-
+```
 ---
 
 ### 2. Configurar la base de datos
