@@ -103,13 +103,4 @@ Generar Prisma Client: npx prisma generate
 
 Crear migraciones: npx prisma migrate dev --name nombre_migracion
 
-## Capturas de pantalla
-
-
-Autores y contacto
-Desarrollado por Andres146-a
-GitHub: https://github.com/Andres146-a
-
-
-Licencia
-Este proyecto es de uso académico. Puedes modificarlo y adaptarlo según tus necesidades.
+```bash
