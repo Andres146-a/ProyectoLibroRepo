@@ -95,7 +95,7 @@ ng serve
 La aplicación se abrirá en http://localhost:4200/.
 
 
-Scripts útiles
+### Scripts útiles
 Ejecutar servidor backend: npm run dev
 
 Ejecutar servidor frontend: ng serve
@@ -105,4 +105,21 @@ Generar Prisma Client: npx prisma generate
 Crear migraciones: npx prisma migrate dev --name nombre_migracion
 
 
+## CAPTURAS
+### VISTA: AUTOR - (Opcion Todos)
+<img width="1843" height="968" alt="image" src="https://github.com/user-attachments/assets/7e90aa2a-3050-474d-b6e8-85fca8a58e54" />
+
+### VISTA AUTOR - (Opcion Registrar - Actualizar - Todos)
+
+REGISTRAR:
+
+<img width="1843" height="968" alt="image" src="https://github.com/user-attachments/assets/e0b42afd-2aed-41f8-bc4e-cc4f7cb1e695" />
+
+ACTUALIZAR: 
+
+<img width="1843" height="968" alt="image" src="https://github.com/user-attachments/assets/770c4fd8-c40d-482c-94b8-a60f25954c7c" />
+
+ELIMINAR: 
+
+<img width="1843" height="968" alt="image" src="https://github.com/user-attachments/assets/5c15ca1b-d6d5-4639-a7e5-88646520ea71" />
 
