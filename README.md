@@ -71,9 +71,9 @@ Crea una base de datos MySQL (por ejemplo, tienda_libros) y configura la conexi√
 backend/.env
 
 Ejemplo de .env:
-
+```bash
 DATABASE_URL="mysql://usuario:contrase√±a@localhost:3306/tienda_libros"
-
+```
 ---
 ## 3. Backend
 
@@ -104,10 +104,5 @@ Generar Prisma Client: npx prisma generate
 
 Crear migraciones: npx prisma migrate dev --name nombre_migracion
 
-````markdown+
-### 1. Clonar el repositorio
-
-```bash
-fgfd
 
 
