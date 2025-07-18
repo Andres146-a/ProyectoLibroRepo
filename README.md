@@ -249,6 +249,6 @@ ELIMINAR:
 ![Imagen de WhatsApp 2025-07-17 a las 20 56 23_da1d0e72](https://github.com/user-attachments/assets/db3e6eb1-9fdd-4f3b-b29d-7cd7de13ab48)
 
 
-###GRUPO
+##GRUPO
 ![Imagen de WhatsApp 2025-07-17 a las 20 55 42_6d560ee5](https://github.com/user-attachments/assets/d425afa2-3723-48d2-9e55-54a010f4cc79)
 
