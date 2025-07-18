@@ -236,3 +236,19 @@ ELIMINAR:
 <img width="1843" height="968" alt="image" src="https://github.com/user-attachments/assets/89dff50a-189b-4124-8c41-cf9157c5442e" />
 <img width="1843" height="968" alt="image" src="https://github.com/user-attachments/assets/6d1ce6f2-4ce3-430d-afe9-1c496c2514ce" />
 
+### AUTORES
+## JOSHUA SANTANA
+![Imagen de WhatsApp 2025-06-19 a las 11 43 36_1810f244](https://github.com/user-attachments/assets/822dae98-43c9-496d-a8b3-fcf9c8b5a283)
+
+## ANIBAL ROSAS
+![Imagen de WhatsApp 2025-06-19 a las 11 43 35_c754dc2b](https://github.com/user-attachments/assets/a8b0baa7-1076-4acb-907a-eb3c25bdcc8d)
+
+![Imagen de WhatsApp 2025-06-20 a las 21 06 05_b55078d2](https://github.com/user-attachments/assets/b94a048b-5790-4c4e-bfbf-2edcf89e2c37)
+
+## MATIAS CAÑOLA
+![Imagen de WhatsApp 2025-07-17 a las 20 56 23_da1d0e72](https://github.com/user-attachments/assets/db3e6eb1-9fdd-4f3b-b29d-7cd7de13ab48)
+
+
+###GRUPO
+![Imagen de WhatsApp 2025-07-17 a las 20 55 42_6d560ee5](https://github.com/user-attachments/assets/d425afa2-3723-48d2-9e55-54a010f4cc79)
+
