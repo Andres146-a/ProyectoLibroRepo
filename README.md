@@ -10,12 +10,28 @@ Este proyecto es una aplicación fullstack para la gestión de una tienda de lib
 
 ## 📁 Estructura del proyecto
 ```bash
-ProyectoTiendaAguiles/
-├── backend/ # API REST con Express, Prisma, MySQL
-├── frontend-app/ # Aplicación Angular (interfaz de usuario)
-├── public/ # Recursos públicos
-├── .gitignore
-└── README.md
+ProyectoLibroRepo/
+│
+├── frontend-app/      ← Vista (Angular)
+│   └── src/app/
+│       ├── models/     → Interfaces de datos (Model)
+│       ├── services/   → Lógica para consumir el backend (Service)
+│       ├── views/      → Componentes Angular: HTML + CSS + TS (View + Controller)
+│       ├── app.component.ts / html / css
+│       └── app.routes.ts → Rutas de navegación interna
+│
+├── backend/           ← Controlador + Modelo + Servicios
+│   └── src/
+│       ├── controllers/  → Reciben las peticiones HTTP (Controller)
+│       ├── services/     → Lógica de negocio (Service)
+│       ├── repositories/ → Acceso a base de datos (Repository)
+│       ├── models/       → Interfaces o clases de datos (Model)
+│       ├── prisma/       → ORM y acceso a la base (Model)
+│       ├── routes/       → Define las rutas HTTP
+│       ├── app.ts        → Configura Express
+│       └── server.ts     → Inicia el servidor
+│
+└── public/, README.md, etc.
 
 ---
 ```
