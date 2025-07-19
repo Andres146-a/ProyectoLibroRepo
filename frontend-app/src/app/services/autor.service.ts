@@ -27,7 +27,7 @@ return this.http.get<Autor>(`${this.apiUrl}/${id}`);  }
 updateAutor(id: number, autor: Autor): Observable<Autor> {  
   console.log('📤 Enviando actualización del autor con ID:', id);
   console.log('📦 Datos del autor a actualizar:', autor);    
-  return this.http.put<Autor>(`${this.apiUrl}/${id}`, autor);  // ✅ cuerpo incluido
+  return this.http.put<Autor>(`${this.apiUrl}/${id}`, autor); 
 }
 
   deleteAutor(id: number): Observable<void> {
